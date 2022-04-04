@@ -1,6 +1,7 @@
 package br.com.ucsal.reservation.api.auth;
 
 public class Role {
-    public static final String USER = "USER";
-    public static final String ADMIN = "ADMIN";
+    private static final String PREFIX = "ROLE_";
+    public static final String USER = PREFIX + Authority.USER;
+    public static final String ADMIN = PREFIX + Authority.ADMIN;
 }
