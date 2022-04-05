@@ -1,6 +1,6 @@
 package br.com.ucsal.reservation.api.viewModels;
 
-import br.com.ucsal.reservation.api.data.entities.Laboratory;
+import br.com.ucsal.reservation.api.models.persistence.Laboratory;
 
 public class LaboratoryViewModel {
     private int id;

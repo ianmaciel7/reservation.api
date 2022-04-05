@@ -1,4 +1,4 @@
-package br.com.ucsal.reservation.api.data.entities;
+package br.com.ucsal.reservation.api.models.persistence;
 
 import br.com.ucsal.reservation.api.viewModels.LaboratoryViewModel;
 

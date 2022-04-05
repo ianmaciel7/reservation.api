@@ -11,52 +11,50 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.ucsal.reservation.api.models.auth.Role;
-import br.com.ucsal.reservation.api.models.persistence.Laboratory;
-import br.com.ucsal.reservation.api.services.LaboratoryService;
-import br.com.ucsal.reservation.api.viewModels.LaboratoryViewModel;
+import br.com.ucsal.reservation.api.services.UserService;
+import br.com.ucsal.reservation.api.viewModels.UserViewModel;
 
 @RestController
-@RequestMapping(path = "/laboratories")
-public class LaboratoryController {
+@RequestMapping(path = "/user")
+public class UserController {
 
     @Autowired
-    private LaboratoryService laboratoryService;
+    private UserService userService;
 
-    @Secured(Role.ADMIN)
-    @GetMapping("/find/{laboratoryId}")
-    public ResponseEntity<LaboratoryViewModel> findById(@PathVariable("laboratoryId") int laboratoryId) {
+    @Secured({ Role.ADMIN, Role.USER })
+    @GetMapping("/find/{userId}")
+    public ResponseEntity<UserViewModel> findById(@PathVariable("userId") int userId) {
         try {
-            LaboratoryViewModel laboratoryViewModel = laboratoryService.getById(laboratoryId);
-            return new ResponseEntity<LaboratoryViewModel>(laboratoryViewModel, HttpStatus.OK);
+            UserViewModel userViewModel = userService.getById(userId);
+            return new ResponseEntity<UserViewModel>(userViewModel, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @Secured(Role.ADMIN)
+    @Secured({ Role.ADMIN, Role.USER })
     @PostMapping("/add")
-    public ResponseEntity<LaboratoryViewModel> add(@RequestBody LaboratoryViewModel newLaboratoryViewModel) {
+    public ResponseEntity<UserViewModel> add(@RequestBody UserViewModel newUser) {
         try {
-            LaboratoryViewModel laboratoryViewModel = laboratoryService.add(newLaboratoryViewModel);
-            return new ResponseEntity<LaboratoryViewModel>(laboratoryViewModel, HttpStatus.CREATED);
+            UserViewModel userViewModel = userService.add(newUser);
+            return new ResponseEntity<UserViewModel>(userViewModel, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @Secured(Role.ADMIN)
+    @Secured({ Role.ADMIN, Role.USER })
     @PutMapping("/update")
-    public ResponseEntity<LaboratoryViewModel> update(@RequestBody LaboratoryViewModel newLaboratoryViewModel) {
+    public ResponseEntity<UserViewModel> update(@RequestBody UserViewModel newUserViewModel) {
         try {
-            LaboratoryViewModel laboratoryViewModel = laboratoryService.update(newLaboratoryViewModel);
-            return new ResponseEntity<LaboratoryViewModel>(laboratoryViewModel, HttpStatus.CREATED);
+            UserViewModel userViewModel = userService.update(newUserViewModel);
+            return new ResponseEntity<UserViewModel>(userViewModel, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -64,10 +62,10 @@ public class LaboratoryController {
     }
 
     @Secured(Role.ADMIN)
-    @DeleteMapping("/remove/{laboratoryId}")
-    public ResponseEntity<Void> removeById(@PathVariable("laboratoryId") int laboratoryId) {
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<Void> removeById(@PathVariable("userId") int userId) {
         try {
-            laboratoryService.removeById(laboratoryId);
+            userService.removeById(userId);
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

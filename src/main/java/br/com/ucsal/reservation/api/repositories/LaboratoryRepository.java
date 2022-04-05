@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.ucsal.reservation.api.data.entities.Laboratory;
+import br.com.ucsal.reservation.api.models.persistence.Laboratory;
 
 @Component
 public interface LaboratoryRepository {

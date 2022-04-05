@@ -6,25 +6,26 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ucsal.reservation.api.data.entities.Laboratory;
+import br.com.ucsal.reservation.api.models.MemoryDbContext;
 import br.com.ucsal.reservation.api.models.MemoryList;
+import br.com.ucsal.reservation.api.models.persistence.Laboratory;
 
 @Repository
-public class LaboratoryRepositoryMemory implements LaboratoryRepository {
+public class LaboratoryRepositoryMemory extends BaseRepository implements LaboratoryRepository {
 
-    private static MemoryList<Laboratory> context = new MemoryList<Laboratory>();
+    private MemoryDbContext context = new MemoryDbContext();
 
-    static {
-        context.add(new Laboratory(context.autoIncrement(), "Teste 1", 400, 'c'));
-        context.add(new Laboratory(context.autoIncrement(), "Teste 2", 500, 'c'));
-        context.add(new Laboratory(context.autoIncrement(), "Teste 3", 600, 'c'));
+    public LaboratoryRepositoryMemory() {
+        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 1", 400, 'c'));
+        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 2", 500, 'c'));
+        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 3", 600, 'c'));
     }
 
     @Override
     public Laboratory add(Laboratory laboratory) {
-        laboratory.setId(context.autoIncrement());
-        context.add(laboratory);
-        return context.stream()
+        laboratory.setId(context.laboratories.autoIncrement());
+        context.laboratories.add(laboratory);
+        return context.laboratories.stream()
                 .filter((l) -> l.equals(laboratory))
                 .findFirst()
                 .orElse(null);
@@ -43,12 +44,12 @@ public class LaboratoryRepositoryMemory implements LaboratoryRepository {
     @Override
     public void remove(Laboratory laboratory) {
 
-        context.remove(laboratory);
+        context.laboratories.remove(laboratory);
     }
 
     @Override
     public Laboratory getById(int laboratoryId) {
-        Laboratory lab = context.stream()
+        Laboratory lab = context.laboratories.stream()
                 .filter((l) -> l.getId() == laboratoryId)
                 .findFirst()
                 .orElse(null);
@@ -59,7 +60,7 @@ public class LaboratoryRepositoryMemory implements LaboratoryRepository {
     @Override
     public List<Laboratory> findAll(int pageNumber, int pageSize) {
 
-        Stream<Laboratory> page = context.stream().skip(pageNumber).limit(pageSize);
+        Stream<Laboratory> page = context.laboratories.stream().skip(pageNumber).limit(pageSize);
         return page.toList();
     }
 }

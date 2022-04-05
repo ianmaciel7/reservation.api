@@ -3,18 +3,20 @@ package br.com.ucsal.reservation.api.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ucsal.reservation.api.data.entities.Laboratory;
+import br.com.ucsal.reservation.api.models.persistence.Laboratory;
 import br.com.ucsal.reservation.api.repositories.LaboratoryRepository;
 import br.com.ucsal.reservation.api.viewModels.LaboratoryViewModel;
 
 @Service
-public class LaboratoryServiceImpl implements LaboratoryService {
+public class LaboratoryServiceImpl extends BaseService implements LaboratoryService {
 
     @Autowired
     private LaboratoryRepository laboratoryRepository;
 
     @Override
     public LaboratoryViewModel add(LaboratoryViewModel laboratoryViewModel) throws Exception {
+
+        this.throwIfNull(laboratoryViewModel);
 
         Laboratory parserLab = Laboratory.parser(laboratoryViewModel);
         Laboratory addedLab = laboratoryRepository.add(parserLab);
@@ -24,16 +26,14 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     }
 
     @Override
-    public LaboratoryViewModel update(LaboratoryViewModel newLaboratoryViewModel) {
+    public LaboratoryViewModel update(LaboratoryViewModel newLaboratoryViewModel) throws Exception {
 
-        if (newLaboratoryViewModel == null)
-            throw new NullPointerException();
+        this.throwIfNull(newLaboratoryViewModel);
 
         Laboratory newLaboratory = Laboratory.parser(newLaboratoryViewModel);
         Laboratory oldLaboratory = laboratoryRepository.getById(newLaboratoryViewModel.getId());
 
-        if (oldLaboratory == null)
-            throw new NullPointerException();
+        this.throwIfNull(oldLaboratory);
 
         Laboratory updatedLaboratory = laboratoryRepository.update(oldLaboratory, newLaboratory);
         LaboratoryViewModel updatedLaboratoryViewModel = LaboratoryViewModel.parser(updatedLaboratory);
@@ -42,15 +42,11 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     }
 
     @Override
-    public void removeById(int laboratoryId) {
-
-        if (laboratoryId == 0)
-            throw new NullPointerException();
+    public void removeById(int laboratoryId) throws Exception {
 
         Laboratory laboratory = laboratoryRepository.getById(laboratoryId);
 
-        if (laboratory == null)
-            throw new NullPointerException();
+        this.throwIfNull(laboratory);
 
         laboratoryRepository.remove(laboratory);
     }
@@ -59,8 +55,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
     public LaboratoryViewModel getById(int laboratoryId) throws Exception {
         Laboratory laboratory = laboratoryRepository.getById(laboratoryId);
 
-        if (laboratory == null)
-            throw new NullPointerException();
+        this.throwIfNull(laboratory);
 
         LaboratoryViewModel laboratoryViewModel = LaboratoryViewModel.parser(laboratory);
         return laboratoryViewModel;

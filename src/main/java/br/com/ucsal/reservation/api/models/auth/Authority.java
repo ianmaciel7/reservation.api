@@ -1,4 +1,4 @@
-package br.com.ucsal.reservation.api.auth;
+package br.com.ucsal.reservation.api.models.auth;
 
 public class Authority {
     public static final String USER = "USER";
