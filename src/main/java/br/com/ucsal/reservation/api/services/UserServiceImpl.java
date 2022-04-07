@@ -28,7 +28,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public UserViewModel update(UserViewModel newUserViewModel) throws Exception {
 
-        User oldUser = this.tryGetUser(newUserViewModel.getId());
+        User oldUser = this.tryGetUserById(newUserViewModel.getId());
 
         User newUser = User.parser(newUserViewModel);
 
@@ -40,20 +40,34 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public void removeById(int userId) throws Exception {
-        User user = this.tryGetUser(userId);
+        User user = this.tryGetUserById(userId);
         userRepository.remove(user);
     }
 
     @Override
-    public UserViewModel getById(int userId) throws Exception {
-        User user = this.tryGetUser(userId);
+    public UserViewModel findById(int userId) throws Exception {
+        User user = this.tryGetUserById(userId);
 
         UserViewModel userViewModel = UserViewModel.parser(user);
         return userViewModel;
     }
 
-    private User tryGetUser(int userId) throws Exception {
-        User user = userRepository.getById(userId);
+    @Override
+    public UserViewModel findByUsername(String username) throws Exception {
+        User user = this.tryGetUserByUsername(username);
+
+        UserViewModel userViewModel = UserViewModel.parser(user);
+        return userViewModel;
+    }
+
+    private User tryGetUserById(int userId) throws Exception {
+        User user = userRepository.findById(userId);
+        this.throwIfNull(user);
+        return user;
+    }
+
+    private User tryGetUserByUsername(String username) throws Exception {
+        User user = userRepository.findByUsername(username);
         this.throwIfNull(user);
         return user;
     }

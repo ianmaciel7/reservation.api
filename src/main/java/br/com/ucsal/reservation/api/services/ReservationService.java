@@ -12,6 +12,6 @@ public interface ReservationService {
 
     public void removeById(int reservationId) throws Exception;
 
-    public ReservationViewModel getById(int reservationId) throws Exception;
+    public ReservationViewModel findById(int reservationId) throws Exception;
 
 }

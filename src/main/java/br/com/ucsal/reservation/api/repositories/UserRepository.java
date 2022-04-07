@@ -9,5 +9,7 @@ public interface UserRepository {
 
     public void remove(User user);
 
-    public User getById(int userId);
+    public User findById(int userId);
+
+    public User findByUsername(String username);
 }

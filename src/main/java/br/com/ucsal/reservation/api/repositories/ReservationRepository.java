@@ -9,5 +9,5 @@ public interface ReservationRepository {
 
     public void remove(Reservation reservation);
 
-    public Reservation getById(int reservationId);
+    public Reservation findById(int reservationId);
 }

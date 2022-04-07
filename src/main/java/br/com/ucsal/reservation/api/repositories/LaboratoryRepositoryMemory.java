@@ -15,12 +15,6 @@ public class LaboratoryRepositoryMemory extends BaseRepository implements Labora
 
     private MemoryDbContext context = new MemoryDbContext();
 
-    public LaboratoryRepositoryMemory() {
-        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 1", 400, 'c'));
-        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 2", 500, 'c'));
-        context.laboratories.add(new Laboratory(context.laboratories.autoIncrement(), "Teste 3", 600, 'c'));
-    }
-
     @Override
     public Laboratory add(Laboratory laboratory) {
         laboratory.setId(context.laboratories.autoIncrement());

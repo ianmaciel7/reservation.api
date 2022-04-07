@@ -1,5 +1,8 @@
 package br.com.ucsal.reservation.api.repositories;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.springframework.stereotype.Repository;
 
 import br.com.ucsal.reservation.api.models.MemoryDbContext;
@@ -10,13 +13,6 @@ import br.com.ucsal.reservation.api.models.persistence.User;
 public class UserRepositoryMemory extends BaseRepository implements UserRepository {
 
     private MemoryDbContext context = new MemoryDbContext();
-
-    public UserRepositoryMemory() {
-        context.users.add(new User(context.users.autoIncrement(), "user", "user", "123", Role.USER));
-        context.users.add(new User(context.users.autoIncrement(), "admin", "admin", "123", Role.ADMIN));
-        context.users.add(
-                new User(context.users.autoIncrement(), "userAdmin", "userAdmin", "123", Role.USER + "," + Role.ADMIN));
-    }
 
     @Override
     public User add(User user) {
@@ -44,12 +40,22 @@ public class UserRepositoryMemory extends BaseRepository implements UserReposito
     }
 
     @Override
-    public User getById(int userId) {
+    public User findById(int userId) {
         User user = context.users.stream()
                 .filter((l) -> l.getId() == userId)
                 .findFirst()
                 .orElse(null);
 
+        return user;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+
+        User user = context.users.stream()
+                .filter((l) -> l.getUserName().equalsIgnoreCase(username))
+                .findFirst()
+                .orElse(null);
         return user;
     }
 

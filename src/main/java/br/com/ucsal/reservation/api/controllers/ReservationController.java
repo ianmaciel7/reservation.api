@@ -31,7 +31,7 @@ public class ReservationController {
     @GetMapping("/find/{reservationId}")
     public ResponseEntity<ReservationViewModel> findById(@PathVariable("reservationId") int reservationId) {
         try {
-            ReservationViewModel reservationViewModel = reservationService.getById(reservationId);
+            ReservationViewModel reservationViewModel = reservationService.findById(reservationId);
             return new ResponseEntity<ReservationViewModel>(reservationViewModel, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

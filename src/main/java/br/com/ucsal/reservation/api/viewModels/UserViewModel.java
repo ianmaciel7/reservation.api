@@ -1,5 +1,7 @@
 package br.com.ucsal.reservation.api.viewModels;
 
+import java.util.List;
+
 import br.com.ucsal.reservation.api.models.persistence.User;
 
 public class UserViewModel {
@@ -7,7 +9,7 @@ public class UserViewModel {
     private String name;
     private String userName;
     private String password;
-    private String permissions;
+    private List<String> permissions;
 
     private UserViewModel(User user) {
         this.id = user.getId();
@@ -49,11 +51,11 @@ public class UserViewModel {
         this.password = password;
     }
 
-    public String getPermissions() {
+    public List<String> getPermissions() {
         return this.permissions;
     }
 
-    public void setPermissions(String permissions) {
+    public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
     }
 

@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/find/{userId}")
     public ResponseEntity<UserViewModel> findById(@PathVariable("userId") int userId) {
         try {
-            UserViewModel userViewModel = userService.getById(userId);
+            UserViewModel userViewModel = userService.findById(userId);
             return new ResponseEntity<UserViewModel>(userViewModel, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

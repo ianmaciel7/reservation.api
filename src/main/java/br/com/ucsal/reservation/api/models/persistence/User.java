@@ -1,5 +1,9 @@
 package br.com.ucsal.reservation.api.models.persistence;
 
+import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.ucsal.reservation.api.viewModels.UserViewModel;
 
 public class User {
@@ -7,20 +11,20 @@ public class User {
     private String name;
     private String userName;
     private String password;
-    private String permissions;
+    private List<String> permissions;
 
-    public User(int id, String name, String userName, String password, String permissions) {
+    public User(int id, String name, String userName, String password, List<String> permissions) {
         this.id = id;
         this.name = name;
         this.userName = userName;
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
         this.permissions = permissions;
     }
 
     private User(UserViewModel userViewModel) {
         this.id = userViewModel.getId();
         this.name = userViewModel.getName();
-        this.password = userViewModel.getPassword();
+        this.password = new BCryptPasswordEncoder().encode(password);
         this.permissions = userViewModel.getPermissions();
         this.userName = userViewModel.getUserName();
     }
@@ -57,11 +61,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPermissions() {
+    public List<String> getPermissions() {
         return this.permissions;
     }
 
-    public void setPermissions(String permissions) {
+    public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
     }
 

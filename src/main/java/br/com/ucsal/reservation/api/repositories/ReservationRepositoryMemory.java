@@ -38,7 +38,7 @@ public class ReservationRepositoryMemory extends BaseRepository implements Reser
     }
 
     @Override
-    public Reservation getById(int reservationId) {
+    public Reservation findById(int reservationId) {
         Reservation reservation = context.reservations.stream()
                 .filter((l) -> l.getId() == reservationId)
                 .findFirst()

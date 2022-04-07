@@ -58,7 +58,7 @@ public class ReservationServiceImpl extends BaseService implements ReservationSe
     }
 
     @Override
-    public ReservationViewModel getById(int reservationId) throws Exception {
+    public ReservationViewModel findById(int reservationId) throws Exception {
         Reservation reservation = this.tryGetReservation(reservationId);
 
         ReservationViewModel reservationViewModel = ReservationViewModel.parser(reservation);
@@ -74,7 +74,7 @@ public class ReservationServiceImpl extends BaseService implements ReservationSe
     }
 
     private User tryGetUser(int userId) throws Exception {
-        User user = userRepository.getById(userId);
+        User user = userRepository.findById(userId);
 
         this.throwIfNull(user);
 
@@ -82,7 +82,7 @@ public class ReservationServiceImpl extends BaseService implements ReservationSe
     }
 
     private Reservation tryGetReservation(int reservationId) throws Exception {
-        Reservation reservation = reservationRepository.getById(reservationId);
+        Reservation reservation = reservationRepository.findById(reservationId);
 
         this.throwIfNull(reservation);
 
