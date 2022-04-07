@@ -3,7 +3,9 @@ package br.com.ucsal.reservation.api.models.persistence;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static br.com.ucsal.reservation.api.models.auth.AuthConfig.*;
 import br.com.ucsal.reservation.api.viewModels.UserViewModel;
 
 public class User {
@@ -17,14 +19,14 @@ public class User {
         this.id = id;
         this.name = name;
         this.userName = userName;
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = appPasswordEncoder.encode(password);
         this.permissions = permissions;
     }
 
     private User(UserViewModel userViewModel) {
         this.id = userViewModel.getId();
         this.name = userViewModel.getName();
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = appPasswordEncoder.encode(password);
         this.permissions = userViewModel.getPermissions();
         this.userName = userViewModel.getUserName();
     }

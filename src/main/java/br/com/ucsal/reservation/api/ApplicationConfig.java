@@ -9,6 +9,8 @@ import br.com.ucsal.reservation.api.repositories.ReservationRepository;
 import br.com.ucsal.reservation.api.repositories.ReservationRepositoryMemory;
 import br.com.ucsal.reservation.api.repositories.UserRepository;
 import br.com.ucsal.reservation.api.repositories.UserRepositoryMemory;
+import br.com.ucsal.reservation.api.services.AuthBasicService;
+import br.com.ucsal.reservation.api.services.AuthService;
 import br.com.ucsal.reservation.api.services.LaboratoryService;
 import br.com.ucsal.reservation.api.services.LaboratoryServiceImpl;
 import br.com.ucsal.reservation.api.services.ReservationService;
@@ -18,6 +20,11 @@ import br.com.ucsal.reservation.api.services.UserServiceImpl;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Bean
+    public AuthService authService() {
+        return new AuthBasicService();
+    }
 
     @Bean
     public LaboratoryRepository laboratoryRepository() {
