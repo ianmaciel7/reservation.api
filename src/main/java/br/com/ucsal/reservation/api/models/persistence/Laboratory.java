@@ -1,5 +1,9 @@
 package br.com.ucsal.reservation.api.models.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.ucsal.reservation.api.inputModels.LaboratoryPatchInputModel;
 import br.com.ucsal.reservation.api.viewModels.LaboratoryViewModel;
 
 public class Laboratory {
@@ -8,12 +12,30 @@ public class Laboratory {
     private String name;
     private int number;
     private char sector;
+    private List<Reservation> reservations;
 
     public Laboratory(int id, String name, int number, char sector) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.sector = sector;
+        this.reservations = new ArrayList<Reservation>();
+    }
+
+    public Laboratory(int id, String name, int number, char sector, List<Reservation> reservations) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.sector = sector;
+        this.reservations = reservations;
+    }
+
+    public Laboratory(LaboratoryPatchInputModel lab) {
+        this.id = lab.getId();
+        this.name = lab.getName();
+        this.number = lab.getNumber();
+        this.sector = lab.getSector();
+        this.reservations = null;
     }
 
     public int getId() {
@@ -48,12 +70,30 @@ public class Laboratory {
         this.sector = sector;
     }
 
-    public static Laboratory parser(LaboratoryViewModel laboratoryViewModel) {
+    public boolean isIdle() {
+        return this.reservations.isEmpty();
+    }
+
+    public List<Reservation> getReservations() {
+        return this.reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public static Laboratory parser(LaboratoryViewModel lab) {
+
         return new Laboratory(
-                laboratoryViewModel.getId(),
-                laboratoryViewModel.getName(),
-                laboratoryViewModel.getNumber(),
-                laboratoryViewModel.getSector());
+                lab.getId(),
+                lab.getName(),
+                lab.getNumber(),
+                lab.getSector(),
+                new ArrayList<Reservation>());
+    }
+
+    public static Laboratory parser(LaboratoryPatchInputModel newLaboratoryPatchInputModel) {
+        return new Laboratory(newLaboratoryPatchInputModel);
     }
 
 }

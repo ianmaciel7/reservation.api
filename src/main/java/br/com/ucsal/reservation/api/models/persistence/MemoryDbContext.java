@@ -1,13 +1,11 @@
-package br.com.ucsal.reservation.api.models;
+package br.com.ucsal.reservation.api.models.persistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static br.com.ucsal.reservation.api.models.auth.AuthConfig.*;
+
 import br.com.ucsal.reservation.api.models.auth.Role;
-import br.com.ucsal.reservation.api.models.persistence.Laboratory;
-import br.com.ucsal.reservation.api.models.persistence.Reservation;
-import br.com.ucsal.reservation.api.models.persistence.User;
 
 public class MemoryDbContext {
     public static MemoryList<Laboratory> laboratories = new MemoryList<Laboratory>();

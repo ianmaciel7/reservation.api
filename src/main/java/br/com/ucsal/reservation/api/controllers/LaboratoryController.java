@@ -1,5 +1,7 @@
 package br.com.ucsal.reservation.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.ucsal.reservation.api.inputModels.LaboratoryPatchInputModel;
 import br.com.ucsal.reservation.api.models.auth.Role;
 import br.com.ucsal.reservation.api.models.persistence.Laboratory;
 import br.com.ucsal.reservation.api.services.LaboratoryService;
@@ -31,7 +34,7 @@ public class LaboratoryController {
     @GetMapping("/find/{laboratoryId}")
     public ResponseEntity<LaboratoryViewModel> findById(@PathVariable("laboratoryId") int laboratoryId) {
         try {
-            LaboratoryViewModel laboratoryViewModel = laboratoryService.getById(laboratoryId);
+            LaboratoryViewModel laboratoryViewModel = laboratoryService.findById(laboratoryId);
             return new ResponseEntity<LaboratoryViewModel>(laboratoryViewModel, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,10 +55,11 @@ public class LaboratoryController {
     }
 
     @Secured(Role.ADMIN)
-    @PutMapping("/update")
-    public ResponseEntity<LaboratoryViewModel> update(@RequestBody LaboratoryViewModel newLaboratoryViewModel) {
+    @PutMapping("/patch")
+    public ResponseEntity<LaboratoryViewModel> patch(
+            @RequestBody LaboratoryPatchInputModel newLaboratoryPatchInputModel) {
         try {
-            LaboratoryViewModel laboratoryViewModel = laboratoryService.update(newLaboratoryViewModel);
+            LaboratoryViewModel laboratoryViewModel = laboratoryService.patch(newLaboratoryPatchInputModel);
             return new ResponseEntity<LaboratoryViewModel>(laboratoryViewModel, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,6 +73,19 @@ public class LaboratoryController {
         try {
             laboratoryService.removeById(laboratoryId);
             return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Secured(Role.ADMIN)
+    @GetMapping("/list/idle")
+    public ResponseEntity<List<LaboratoryViewModel>> findAllByIdle(@RequestParam int pageNumber,
+            @RequestParam int pageSize) {
+        try {
+            List<LaboratoryViewModel> laboratories = laboratoryService.findAllByIdle(pageNumber, pageSize);
+            return new ResponseEntity<List<LaboratoryViewModel>>(laboratories, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

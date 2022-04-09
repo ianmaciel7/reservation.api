@@ -6,9 +6,9 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ucsal.reservation.api.models.MemoryDbContext;
-import br.com.ucsal.reservation.api.models.MemoryList;
 import br.com.ucsal.reservation.api.models.persistence.Laboratory;
+import br.com.ucsal.reservation.api.models.persistence.MemoryDbContext;
+import br.com.ucsal.reservation.api.models.persistence.MemoryList;
 
 @Repository
 public class LaboratoryRepositoryMemory extends BaseRepository implements LaboratoryRepository {
@@ -31,18 +31,30 @@ public class LaboratoryRepositoryMemory extends BaseRepository implements Labora
         oldLaboratory.setName(newLaboratory.getName());
         oldLaboratory.setNumber(newLaboratory.getNumber());
         oldLaboratory.setSector(newLaboratory.getSector());
+        oldLaboratory.setReservations(newLaboratory.getReservations());
 
         return oldLaboratory;
     }
 
     @Override
-    public void remove(Laboratory laboratory) {
+    public Laboratory patch(Laboratory oldLaboratory, Laboratory newLaboratory) {
+        oldLaboratory.setName(newLaboratory.getName());
+        oldLaboratory.setNumber(newLaboratory.getNumber());
+        oldLaboratory.setSector(newLaboratory.getSector());
 
+        return oldLaboratory;
+    }
+
+    @Override
+    public void remove(Laboratory laboratory) throws Exception {
+        if (laboratory.isIdle() == false)
+            throw new Exception(
+                    "Ainda existem reservas, para remover o Laboratório é necessario que não tenha reservas");
         context.laboratories.remove(laboratory);
     }
 
     @Override
-    public Laboratory getById(int laboratoryId) {
+    public Laboratory findById(int laboratoryId) {
         Laboratory lab = context.laboratories.stream()
                 .filter((l) -> l.getId() == laboratoryId)
                 .findFirst()
@@ -52,9 +64,12 @@ public class LaboratoryRepositoryMemory extends BaseRepository implements Labora
     }
 
     @Override
-    public List<Laboratory> findAll(int pageNumber, int pageSize) {
-
-        Stream<Laboratory> page = context.laboratories.stream().skip(pageNumber).limit(pageSize);
-        return page.toList();
+    public List<Laboratory> findAllByIdle(int pageNumber, int pageSize) {
+        List<Laboratory> page = context.laboratories.stream()
+                .filter((l) -> l.isIdle() == true)
+                .skip(pageNumber).limit(pageSize)
+                .toList();
+        return page;
     }
+
 }

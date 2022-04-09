@@ -10,10 +10,10 @@ public class ReservationInputModel {
     private int requesterId;
     private int laboratoryId;
 
-    public ReservationInputModel(int id, boolean wasUsed, LocalDateTime start, LocalDateTime end, int requesterId,
+    public ReservationInputModel(int id, LocalDateTime start, LocalDateTime end, int requesterId,
             int laboratoryId) {
         this.id = id;
-        this.wasUsed = wasUsed;
+        this.wasUsed = false;
         this.start = start;
         this.end = end;
         this.requesterId = requesterId;

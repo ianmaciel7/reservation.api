@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ucsal.reservation.api.models.MemoryDbContext;
 import br.com.ucsal.reservation.api.models.auth.Role;
+import br.com.ucsal.reservation.api.models.persistence.MemoryDbContext;
 import br.com.ucsal.reservation.api.models.persistence.User;
 
 @Repository

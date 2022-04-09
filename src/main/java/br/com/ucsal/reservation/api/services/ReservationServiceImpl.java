@@ -66,7 +66,7 @@ public class ReservationServiceImpl extends BaseService implements ReservationSe
     }
 
     private Laboratory tryGetLaboratory(int laboratoryId) throws Exception {
-        Laboratory laboratory = laboratoryRepository.getById(laboratoryId);
+        Laboratory laboratory = laboratoryRepository.findById(laboratoryId);
 
         this.throwIfNull(laboratory);
 
@@ -88,4 +88,5 @@ public class ReservationServiceImpl extends BaseService implements ReservationSe
 
         return reservation;
     }
+
 }

@@ -2,9 +2,9 @@ package br.com.ucsal.reservation.api.repositories;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.ucsal.reservation.api.models.MemoryDbContext;
-import br.com.ucsal.reservation.api.models.MemoryList;
 import br.com.ucsal.reservation.api.models.persistence.Laboratory;
+import br.com.ucsal.reservation.api.models.persistence.MemoryDbContext;
+import br.com.ucsal.reservation.api.models.persistence.MemoryList;
 import br.com.ucsal.reservation.api.models.persistence.Reservation;
 
 @Repository
@@ -15,6 +15,7 @@ public class ReservationRepositoryMemory extends BaseRepository implements Reser
     @Override
     public Reservation add(Reservation reservation) {
         reservation.setId(context.reservations.autoIncrement());
+        reservation.getLaboratory().getReservations().add(reservation);
         context.reservations.add(reservation);
         return context.reservations.stream()
                 .filter((l) -> l.equals(reservation))
@@ -24,16 +25,21 @@ public class ReservationRepositoryMemory extends BaseRepository implements Reser
 
     @Override
     public Reservation update(Reservation oldReservation, Reservation newReservation) {
+
+        oldReservation.getLaboratory().getReservations().remove(oldReservation);
         oldReservation.setWasUsed(newReservation.getWasUsed());
         oldReservation.setEnd(newReservation.getEnd());
         oldReservation.setStart(newReservation.getStart());
         oldReservation.setRequester(newReservation.getRequester());
         oldReservation.setLaboratory(newReservation.getLaboratory());
+        oldReservation.getLaboratory().getReservations().add(newReservation);
+
         return oldReservation;
     }
 
     @Override
     public void remove(Reservation reservation) {
+        reservation.getLaboratory().getReservations().remove(reservation);
         context.reservations.remove(reservation);
     }
 

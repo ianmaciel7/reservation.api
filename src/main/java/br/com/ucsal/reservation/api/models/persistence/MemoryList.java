@@ -1,4 +1,4 @@
-package br.com.ucsal.reservation.api.models;
+package br.com.ucsal.reservation.api.models.persistence;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;

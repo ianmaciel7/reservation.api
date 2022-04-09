@@ -12,9 +12,12 @@ public interface LaboratoryRepository {
 
     public Laboratory update(Laboratory oldLaboratory, Laboratory newLaboratory);
 
-    public void remove(Laboratory laboratory);
+    public void remove(Laboratory laboratory) throws Exception;
 
-    public Laboratory getById(int laboratoryId);
+    public Laboratory findById(int laboratoryId);
 
-    public List<Laboratory> findAll(int pageNumber, int pageSize);
+    public List<Laboratory> findAllByIdle(int pageNumber, int pageSize);
+
+    public Laboratory patch(Laboratory oldLaboratory, Laboratory newLaboratory);
+
 }

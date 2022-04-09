@@ -1,5 +1,7 @@
 package br.com.ucsal.reservation.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.ucsal.reservation.api.inputModels.ReservationInputModel;
 import br.com.ucsal.reservation.api.models.auth.Role;
 import br.com.ucsal.reservation.api.services.ReservationService;
+import br.com.ucsal.reservation.api.viewModels.LaboratoryViewModel;
 import br.com.ucsal.reservation.api.viewModels.ReservationViewModel;
 import br.com.ucsal.reservation.api.viewModels.ReservationViewModel;
 
