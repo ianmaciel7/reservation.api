@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.ucsal.reservation.api.inputModels.LoginInputViewModel;
+import br.com.ucsal.reservation.api.models.auth.Auth;
 import br.com.ucsal.reservation.api.services.AuthService;
 
 @RestController
@@ -28,14 +29,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginInputViewModel loginInputViewModel) {
-        try {
-            String auth = authService.login(loginInputViewModel);
-            return new ResponseEntity<String>(auth, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<Auth> login(@RequestBody LoginInputViewModel loginInputViewModel) throws Exception {
+        Auth value = authService.login(loginInputViewModel);
+        return new ResponseEntity<Auth>(value, HttpStatus.OK);
     }
 }

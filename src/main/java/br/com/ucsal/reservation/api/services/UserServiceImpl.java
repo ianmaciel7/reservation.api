@@ -68,7 +68,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     private User tryGetUserByUsername(String username) throws Exception {
         User user = userRepository.findByUsername(username);
-        this.throwIfNull(user);
+        this.throwIfNull(user, "usuário não encontrado");
         return user;
     }
 
