@@ -19,4 +19,6 @@ public interface LaboratoryService {
 
     public List<LaboratoryViewModel> findAllByIdle(int pageNumber, int pageSize) throws Exception;
 
+    public List<LaboratoryViewModel> findAll(int pageNumber, int pageSize) throws Exception;
+
 }

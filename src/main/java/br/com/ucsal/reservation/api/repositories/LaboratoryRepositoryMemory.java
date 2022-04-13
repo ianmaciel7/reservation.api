@@ -72,4 +72,12 @@ public class LaboratoryRepositoryMemory extends BaseRepository implements Labora
         return page;
     }
 
+    @Override
+    public List<Laboratory> findAll(int pageNumber, int pageSize) {
+        List<Laboratory> page = context.laboratories.stream()
+                .skip(pageNumber).limit(pageSize)
+                .toList();
+        return page;
+    }
+
 }

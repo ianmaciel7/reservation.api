@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +86,19 @@ public class LaboratoryController {
             @RequestParam int pageSize) {
         try {
             List<LaboratoryViewModel> laboratories = laboratoryService.findAllByIdle(pageNumber, pageSize);
+            return new ResponseEntity<List<LaboratoryViewModel>>(laboratories, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Secured(Role.ADMIN)
+    @GetMapping("/list")
+    public ResponseEntity<List<LaboratoryViewModel>> findAll(@RequestParam int pageNumber,
+            @RequestParam int pageSize) {
+        try {
+            List<LaboratoryViewModel> laboratories = laboratoryService.findAll(pageNumber, pageSize);
             return new ResponseEntity<List<LaboratoryViewModel>>(laboratories, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

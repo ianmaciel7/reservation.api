@@ -20,4 +20,6 @@ public interface LaboratoryRepository {
 
     public Laboratory patch(Laboratory oldLaboratory, Laboratory newLaboratory);
 
+    public List<Laboratory> findAll(int pageNumber, int pageSize);
+
 }

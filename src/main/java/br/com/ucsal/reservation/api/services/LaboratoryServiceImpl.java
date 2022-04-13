@@ -82,4 +82,18 @@ public class LaboratoryServiceImpl extends BaseService implements LaboratoryServ
 
         return laboratoriesViewModels;
     }
+
+    @Override
+    public List<LaboratoryViewModel> findAll(int pageNumber, int pageSize) throws Exception {
+        List<Laboratory> laboratories = laboratoryRepository.findAll(pageNumber, pageSize);
+
+        this.throwIfNull(laboratories);
+
+        List<LaboratoryViewModel> laboratoriesViewModels = laboratories
+                .stream()
+                .map(x -> LaboratoryViewModel.parser(x))
+                .toList();
+
+        return laboratoriesViewModels;
+    }
 }
