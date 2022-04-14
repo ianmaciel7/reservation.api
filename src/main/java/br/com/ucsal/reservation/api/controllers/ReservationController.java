@@ -33,49 +33,39 @@ public class ReservationController {
 
     @Secured(Role.ADMIN)
     @GetMapping("/find/{reservationId}")
-    public ResponseEntity<ReservationViewModel> findById(@PathVariable("reservationId") int reservationId) {
-        try {
-            ReservationViewModel reservationViewModel = reservationService.findById(reservationId);
-            return new ResponseEntity<ReservationViewModel>(reservationViewModel, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReservationViewModel> findById(@PathVariable("reservationId") int reservationId)
+            throws Exception {
+
+        ReservationViewModel reservationViewModel = reservationService.findById(reservationId);
+        return new ResponseEntity<ReservationViewModel>(reservationViewModel, HttpStatus.OK);
     }
 
     @Secured(Role.ADMIN)
     @PostMapping("/add")
-    public ResponseEntity<ReservationViewModel> add(@RequestBody ReservationInputModel newReservationInputModel) {
-        try {
-            ReservationViewModel laboratoryViewModel = reservationService.add(newReservationInputModel);
-            return new ResponseEntity<ReservationViewModel>(laboratoryViewModel, HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReservationViewModel> add(@RequestBody ReservationInputModel newReservationInputModel)
+            throws Exception {
+
+        ReservationViewModel laboratoryViewModel = reservationService.add(newReservationInputModel);
+        return new ResponseEntity<ReservationViewModel>(laboratoryViewModel, HttpStatus.CREATED);
+
     }
 
     @Secured(Role.ADMIN)
     @PutMapping("/update")
-    public ResponseEntity<ReservationViewModel> update(@RequestBody ReservationInputModel newReservationInputModel) {
-        try {
-            ReservationViewModel laboratoryViewModel = reservationService.update(newReservationInputModel);
-            return new ResponseEntity<ReservationViewModel>(laboratoryViewModel, HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReservationViewModel> update(@RequestBody ReservationInputModel newReservationInputModel)
+            throws Exception {
+
+        ReservationViewModel laboratoryViewModel = reservationService.update(newReservationInputModel);
+        return new ResponseEntity<ReservationViewModel>(laboratoryViewModel, HttpStatus.CREATED);
+
     }
 
     @Secured(Role.ADMIN)
     @DeleteMapping("/remove/{laboratoryId}")
-    public ResponseEntity<Void> removeById(@PathVariable("laboratoryId") int laboratoryId) {
-        try {
-            reservationService.removeById(laboratoryId);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Void> removeById(@PathVariable("laboratoryId") int laboratoryId) throws Exception {
+
+        reservationService.removeById(laboratoryId);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+
     }
 }
